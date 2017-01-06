@@ -16,11 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import net.mercurysolutions.sbyme.entity.InterestEntity;
-import net.mercurysolutions.sbyme.interfaces.IModel;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.mercurysolutions.sbyme.entity.InterestEntity;
+import net.mercurysolutions.sbyme.interfaces.IModel;
 
 @SuppressWarnings("serial")
 @Entity
@@ -37,6 +37,10 @@ public class Interest extends BaseObject implements IModel {
 	
 	@Column(nullable = true)
 	private String place;
+	
+	@OneToOne
+	@JsonIgnore
+	private Address address;
 		
 	@OneToOne
 	@JsonIgnore
@@ -123,6 +127,20 @@ public class Interest extends BaseObject implements IModel {
 	 */
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+	
+	/**
+	 * @return the address
+	 */
+	public Address getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param owner the address to set
+	 */
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	/**

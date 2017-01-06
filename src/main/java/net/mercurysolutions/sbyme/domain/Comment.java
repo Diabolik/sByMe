@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.splitit.events.entity.CommentEntity;
-import com.splitit.events.interfaces.IModel;
+
+import net.mercurysolutions.sbyme.interfaces.IModel;
 
 @SuppressWarnings("serial")
 @Entity

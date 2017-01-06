@@ -21,6 +21,8 @@ public class InterestEntity {
 	
 	private UserEntity owner;
 	
+	private AddressEntity address;
+	
 	private Set<CommentEntity> comments;
 	
 	private Set<GalleryItemEntity> gallery;
@@ -96,20 +98,6 @@ public class InterestEntity {
 	}
 
 	/**
-	 * @return the theme
-	 */
-	public ThemeEntity getTheme() {
-		return theme;
-	}
-
-	/**
-	 * @param theme the theme to set
-	 */
-	public void setTheme(ThemeEntity theme) {
-		this.theme = theme;
-	}
-
-	/**
 	 * @return the owner
 	 */
 	public UserEntity getOwner() {
@@ -121,6 +109,20 @@ public class InterestEntity {
 	 */
 	public void setOwner(UserEntity owner) {
 		this.owner = owner;
+	}
+	
+	/**
+	 * @return the address
+	 */
+	public UserEntity getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param owner the owner to set
+	 */
+	public void setAddress(AddressEntity address) {
+		this.address = address;
 	}
 
 	/**
@@ -149,33 +151,5 @@ public class InterestEntity {
 	 */
 	public void setGallery(Set<GalleryItemEntity> gallery) {
 		this.gallery = gallery;
-	}
-
-	/**
-	 * @return the startDate
-	 */
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	/**
-	 * @param startDate the startDate to set
-	 */
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	/**
-	 * @return the endDate
-	 */
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	/**
-	 * @param endDate the endDate to set
-	 */
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
 	}
 }
