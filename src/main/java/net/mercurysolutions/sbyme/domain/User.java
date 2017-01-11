@@ -15,9 +15,11 @@ import javax.persistence.Id;
 import net.mercurysolutions.sbyme.entity.UserEntity;
 import net.mercurysolutions.sbyme.interfaces.IModel;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 @SuppressWarnings("serial")
 @Entity
 public class User extends BaseObject implements IModel {
@@ -61,6 +63,13 @@ public class User extends BaseObject implements IModel {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		UserEntity entity = mapper.convertValue(this, UserEntity.class);
 		return entity;
+	}
+	
+	public void initBasicUser() {
+		this.setPhone("");
+		this.setLocation("");
+		this.setImage("");
+		this.setGender("");
 	}
 
 	/**

@@ -12,9 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import net.mercurysolutions.sbyme.entity.CommentEntity;
 import net.mercurysolutions.sbyme.interfaces.IModel;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings("serial")
 @Entity
@@ -30,7 +31,7 @@ public class Comment extends BaseObject  implements IModel {
 	private User owner;
 
 	@ManyToOne
-	private Interest event;
+	private Location location;
 	
 	@Override
 	public Object toEntity() {
@@ -85,17 +86,17 @@ public class Comment extends BaseObject  implements IModel {
 	}
 
 	/**
-	 * @return the event
+	 * @return the location
 	 */
-	public Interest getEvent() {
-		return event;
+	public Location getLocation() {
+		return location;
 	}
 
 	/**
-	 * @param event
-	 *            the event to set
+	 * @param location
+	 *            the location to set
 	 */
-	public void setEvent(Interest event) {
-		this.event = event;
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 }

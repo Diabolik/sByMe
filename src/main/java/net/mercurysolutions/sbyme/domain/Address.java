@@ -5,15 +5,14 @@
  */
 package net.mercurysolutions.sbyme.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+
+import net.mercurysolutions.sbyme.entity.AddressEntity;
+import net.mercurysolutions.sbyme.interfaces.IModel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import net.mercurysolutions.sbyme.interfaces.IModel;
 
 @SuppressWarnings("serial")
 @Entity

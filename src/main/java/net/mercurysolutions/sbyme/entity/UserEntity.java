@@ -30,7 +30,7 @@ public class UserEntity implements IEntity {
 
 	private String password;
 	
-	private String country;
+	private String location;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date birthday;
@@ -165,17 +165,17 @@ public class UserEntity implements IEntity {
 	}
 
 	/**
-	 * @return the country
+	 * @return the location
 	 */
-	public String getCountry() {
-		return country;
+	public String getLocation() {
+		return location;
 	}
 
 	/**
-	 * @param country the country to set
+	 * @param location the location to set
 	 */
-	public void setCountry(String country) {
-		this.country = country;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	/**

@@ -5,10 +5,9 @@
  */
 package net.mercurysolutions.sbyme.entity;
 
-import java.sql.Date;
 import java.util.Set;
 
-public class InterestEntity {
+public class LocationEntity {
 	private Long id;
 	
 	private String name;
@@ -114,7 +113,7 @@ public class InterestEntity {
 	/**
 	 * @return the address
 	 */
-	public UserEntity getAddress() {
+	public AddressEntity getAddress() {
 		return address;
 	}
 

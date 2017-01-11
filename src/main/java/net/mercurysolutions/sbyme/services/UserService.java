@@ -5,6 +5,8 @@
  */
 package net.mercurysolutions.sbyme.services;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -47,27 +49,39 @@ public class UserService {
 	}
 	
 	/**
+	 * Find User by email and password
+	 * 
+	 * @param email
+	 * @return
+	 */
+	public List<User> findAllByEmailAndPassword(String email, String password) {
+		List<User> users = userRepository.findAllByEmailAndPassword(email, password);
+		return users;
+	}
+
+	/**
+	 * Find User by nickname and password
+	 * 
+	 * @param nickname
+	 * @return
+	 */
+	public List<User> findByNicknameAndPassword(String nickname, String password) {
+		List<User> users = userRepository.findAllByNicknameAndPassword(nickname, password);
+		return users;
+	}
+	
+	/**
 	 * Returns a detached User. This method is used for update method
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public User findEquivalencyDetached(long id) {
+	public User findUserDetached(long id) {
 		User user = userRepository.findOne(id);
 		entityManager.detach(user);
 		return user;
 	}
 
-	/**
-	 * Validate user existence
-	 * 
-	 * @param equivalencyId
-	 * @return
-	 */
-	public boolean exists(long id) {
-		return userRepository.exists(id);
-	}
-	
 	/**
 	 * Saves an user.
 	 * 

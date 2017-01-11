@@ -19,12 +19,12 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.mercurysolutions.sbyme.entity.InterestEntity;
+import net.mercurysolutions.sbyme.entity.LocationEntity;
 import net.mercurysolutions.sbyme.interfaces.IModel;
 
 @SuppressWarnings("serial")
 @Entity
-public class Interest extends BaseObject implements IModel {
+public class Location extends BaseObject implements IModel {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -46,16 +46,16 @@ public class Interest extends BaseObject implements IModel {
 	@JsonIgnore
 	private User owner;
 	
-	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "event")
+	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "location")
 	private Set<Comment> comments;
 	
-	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "event")
+	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "location")
 	private Set<GalleryItem> gallery;
 	
 	@Override
 	public Object toEntity() {
 		ObjectMapper mapper = new ObjectMapper();
-		InterestEntity entity = mapper.convertValue(this, InterestEntity.class);
+		LocationEntity entity = mapper.convertValue(this, LocationEntity.class);
 		return entity;
 	}
 

@@ -5,6 +5,8 @@
  */
 package net.mercurysolutions.sbyme.controller;
 
+import java.util.List;
+
 import net.mercurysolutions.sbyme.domain.User;
 import net.mercurysolutions.sbyme.entity.UserEntity;
 import net.mercurysolutions.sbyme.exception.EventsErrorCode;
@@ -19,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wordnik.swagger.annotations.Api;
@@ -34,73 +35,75 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-
-	@RequestMapping(value = "/users/email", method = RequestMethod.POST)
-	@ApiOperation(value = "Search the user by email", notes = "Search the user by email")
-	public ResponseEntity<UserEntity> findByEmail(@RequestParam("email") String email) {
+	
+	@RequestMapping(value = "/users/login", method = RequestMethod.POST)
+	@ApiOperation(value = "User login in sByMe", notes = "User login in sByMe")
+	public ResponseEntity<UserEntity> loginUser(@RequestBody UserEntity user) {
+		String login = user.getEmail();
+		String password = user.getPassword();
+		
 		ResponseEntity<UserEntity> response = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		
-		User user = validateEmailNotExists(email, responseHeaders);
-		if (!responseHeaders.isEmpty()) {
-			return new ResponseEntity<UserEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
+		//Search the user by email
+		List<User> users = userService.findAllByEmailAndPassword(login, password);
+		
+		if(users.isEmpty()) {
+			//Search the user by nickname
+			login = user.getNickname();
+			users = userService.findByNicknameAndPassword(login, password);
+			if(users.isEmpty()) {
+				EventsErrorCode managedError = EventsErrorCode.USER_NOT_FOUND;
+				log.error(managedError);
+				responseHeaders.add("ERROR", managedError.toString());
+				return new ResponseEntity<UserEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
+			}
 		}
-
-		UserEntity entity = (UserEntity) user.toEntity();
+		
+		UserEntity entity = (UserEntity) users.get(0).toEntity();
 		response = new ResponseEntity<UserEntity>(entity, HttpStatus.OK);
 		return response;
 	}
 	
-	@RequestMapping(value = "/users/nickname", method = RequestMethod.POST)
-	@ApiOperation(value = "Search the user by email", notes = "Search the user by email")
-	public ResponseEntity<UserEntity> findByNickname(@RequestParam("nickname") String nickname) {
-		ResponseEntity<UserEntity> response = null;
-		HttpHeaders responseHeaders = new HttpHeaders();
-		
-		User user = validateNicknameNotExists(nickname, responseHeaders);
-		if (!responseHeaders.isEmpty()) {
-			return new ResponseEntity<UserEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
-		}
-
-		UserEntity entity = (UserEntity) user.toEntity();
-		response = new ResponseEntity<UserEntity>(entity, HttpStatus.OK);
-		return response;
-	}
-
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ApiOperation(value = "Save the user provided", notes = "Save the user provided")
 	public ResponseEntity<UserEntity> save(@RequestBody UserEntity entity) {
 		ResponseEntity<UserEntity> response = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 
-		validateEmailExists(entity.getEmail(), responseHeaders);
+		emailExists(entity.getEmail(), responseHeaders);
 		if (!responseHeaders.isEmpty()) {
 			return new ResponseEntity<UserEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
 		}
 
-		validateNicknameExists(entity.getNickname(), responseHeaders);
+		nicknameExists(entity.getNickname(), responseHeaders);
 		if (!responseHeaders.isEmpty()) {
 			return new ResponseEntity<UserEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
 		}
 
 		User user = (User) entity.toModel();
+		//Filling default data.
+		user.initBasicUser();
+		
+		//Saving and converting user
 		entity = (UserEntity) userService.save(user).toEntity();
 
 		response = new ResponseEntity<UserEntity>(entity, HttpStatus.OK);
 		return response;
 	}
-
+	
+	
 	/**
 	 * Verify if the email is used
 	 * 
 	 * @param email
 	 * @param headers
 	 */
-	private void validateEmailExists(String email, HttpHeaders headers) {
+	private void emailExists(String email, HttpHeaders headers) {
 		if (userService.findByEmail(email) != null) {
 			EventsErrorCode managedError = EventsErrorCode.USER_FOUND_EMAIL;
 			log.error(managedError);
-			headers.add("USER_FOUND_EMAIL", managedError.toString());
+			headers.add("ERROR", managedError.toString());
 		}
 	}
 
@@ -110,46 +113,12 @@ public class UserController {
 	 * @param nickname
 	 * @param headers
 	 */
-	private void validateNicknameExists(String nickname, HttpHeaders headers) {
+	private void nicknameExists(String nickname, HttpHeaders headers) {
 		if (userService.findByNickname(nickname) != null) {
 			EventsErrorCode managedError = EventsErrorCode.USER_FOUND_NICKNAME;
 			log.error(managedError);
-			headers.add("USER_FOUND_EMAIL", managedError.toString());
+			headers.add("ERROR", managedError.toString());
 		}
-	}
-
-	/**
-	 * Verify if the email is used
-	 * 
-	 * @param email
-	 * @param headers
-	 */
-	private User validateEmailNotExists(String email, HttpHeaders headers) {
-		User user = userService.findByEmail(email);
-
-		if (user == null) {
-			EventsErrorCode managedError = EventsErrorCode.USER_NOT_FOUND;
-			log.error(managedError);
-			headers.add("USER_NOT_FOUND", managedError.toString());
-		}
-		return user;
-	}
-
-	/**
-	 * Verify if the nickname is used
-	 * 
-	 * @param nickname
-	 * @param headers
-	 */
-	private User validateNicknameNotExists(String nickname, HttpHeaders headers) {
-		User user = userService.findByNickname(nickname);
-
-		if (user == null) {
-			EventsErrorCode managedError = EventsErrorCode.USER_NOT_FOUND;
-			log.error(managedError);
-			headers.add("USER_NOT_FOUND", managedError.toString());
-		}
-		return user;
 	}
 
 }

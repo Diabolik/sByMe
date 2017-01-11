@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: sByMe-main-communication-api
 Implementation-Version: 0.1.0
-Built-By: aromero
+Built-By: Al
 Implementation-Vendor-Id: net.mercurysolutions.sbyme
-Build-Jdk: 1.8.0_111
+Build-Jdk: 1.8.0_25
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 
