@@ -37,15 +37,15 @@ public class Location extends BaseObject implements IModel {
 	
 	@Column(nullable = true)
 	private String place;
+
+	@OneToOne
+	@JsonIgnore
+	private User owner;
 	
 	@OneToOne
 	@JsonIgnore
 	private Address address;
 		
-	@OneToOne
-	@JsonIgnore
-	private User owner;
-	
 	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "location")
 	private Set<Comment> comments;
 	

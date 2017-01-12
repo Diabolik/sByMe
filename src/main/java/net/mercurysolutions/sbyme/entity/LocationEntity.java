@@ -7,7 +7,12 @@ package net.mercurysolutions.sbyme.entity;
 
 import java.util.Set;
 
-public class LocationEntity {
+import net.mercurysolutions.sbyme.domain.Location;
+import net.mercurysolutions.sbyme.interfaces.IEntity;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class LocationEntity implements IEntity{
 	private Long id;
 	
 	private String name;
@@ -25,6 +30,13 @@ public class LocationEntity {
 	private Set<CommentEntity> comments;
 	
 	private Set<GalleryItemEntity> gallery;
+	
+	@Override
+	public Object toModel() {
+		ObjectMapper mapper = new ObjectMapper();
+		Location location = mapper.convertValue(this, Location.class);
+		return location;
+	}
 	
 	/**
 	 * @return the id

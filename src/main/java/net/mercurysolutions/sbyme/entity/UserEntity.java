@@ -40,8 +40,8 @@ public class UserEntity implements IEntity {
 	@Override
 	public Object toModel() {
 		ObjectMapper mapper = new ObjectMapper();
-		User address = mapper.convertValue(this, User.class);
-		return address;
+		User user = mapper.convertValue(this, User.class);
+		return user;
 	}
 
 	/**

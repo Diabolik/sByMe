@@ -81,6 +81,16 @@ public class UserService {
 		entityManager.detach(user);
 		return user;
 	}
+	
+	/**
+	 * Verify if the user exists in the database
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean exists(Long id) {
+    	return userRepository.exists(id);
+    }
 
 	/**
 	 * Saves an user.
